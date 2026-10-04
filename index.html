@@ -3,71 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="THE BLIND SPOT - AI-powered decision support tool that helps you identify blind spots in your reasoning">
+  <meta name="theme-color" content="#060910">
   <title>THE BLIND SPOT - AI Decision Support</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="bg-layer" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
   <div class="app">
     <header class="header">
       <div class="container">
-        <div class="logo">
-          <span class="logo-icon">🔍</span>
-          <span class="logo-text">THE BLIND SPOT</span>
+        <div class="header-content">
+          <div class="logo">
+            <span class="logo-icon" aria-hidden="true">🔍</span>
+            <span class="logo-text">THE BLIND SPOT</span>
+          </div>
+          <p class="tagline">Uncover what you're missing in your decisions. AI-powered critical thinking assistant.</p>
+          <div class="header-badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            <span>Mock AI Analysis • Ready for LLM Integration</span>
+          </div>
         </div>
-        <p class="tagline">Uncover what you're missing in your decisions</p>
       </div>
     </header>
 
     <main class="main">
       <div class="container">
-        <section class="input-section">
+        <section class="input-section" id="input-section">
           <div class="card">
-            <h2>Describe Your Decision</h2>
-            <p class="subtitle">Share the context and your current reasoning</p>
-            
-            <div class="form-group">
-              <label for="decision-title">Decision Title</label>
-              <input type="text" id="decision-title" placeholder="e.g., Accept 6-month internship offer" />
+            <div class="section-header">
+              <h1 class="section-title">Describe Your Decision</h1>
+              <p class="section-subtitle">Share the context and your current reasoning — the AI will find what you might be overlooking</p>
             </div>
             
-            <div class="form-group">
-              <label for="decision-context">Context & Details</label>
-              <textarea id="decision-context" rows="4" placeholder="Describe the situation, options, constraints, and any relevant details..."></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label for="decision-reasoning">Your Current Reasoning</label>
-              <textarea id="decision-reasoning" rows="4" placeholder="Explain why you're leaning a certain way. What factors matter most to you? What assumptions are you making?"></textarea>
-            </div>
-            
-            <button id="analyze-btn" class="btn btn-primary" disabled>
-              <span class="btn-text">Analyze My Reasoning</span>
-              <span class="btn-loader" hidden>Analyzing...</span>
-            </button>
+            <form id="decision-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="decision-title">
+                    <span class="label-icon" aria-hidden="true">📝</span>
+                    Decision Title
+                  </label>
+                  <input 
+                    type="text" 
+                    id="decision-title" 
+                    class="form-input" 
+                    placeholder="e.g., Accept 6-month internship offer"
+                    maxlength="100"
+                    required
+                    autocomplete="off"
+                  >
+                  <div class="char-count" id="title-count"><span id="title-current">0</span>/100</div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="decision-type">
+                    <span class="label-icon" aria-hidden="true">🏷️</span>
+                    Decision Type
+                  </label>
+                  <select id="decision-type" class="form-input" required>
+                    <option value="">Select a category</option>
+                    <option value="career">Career / Job</option>
+                    <option value="education">Education / Learning</option>
+                    <option value="finance">Finance / Investment</option>
+                    <option value="relationship">Relationship / Personal</option>
+                    <option value="health">Health / Wellness</option>
+                    <option value="business">Business / Strategy</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="decision-context">
+                  <span class="label-icon" aria-hidden="true">📋</span>
+                  Context & Details
+                </label>
+                <textarea 
+                  id="decision-context" 
+                  class="form-textarea" 
+                  placeholder="Describe the situation, options, constraints, timeline, stakeholders, and any relevant details..."
+                  maxlength="2000"
+                  required
+                ></textarea>
+                <div class="char-count" id="context-count"><span id="context-current">0</span>/2000</div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="decision-reasoning">
+                  <span class="label-icon" aria-hidden="true">💭</span>
+                  Your Current Reasoning
+                </label>
+                <textarea 
+                  id="decision-reasoning" 
+                  class="form-textarea" 
+                  placeholder="Explain why you're leaning a certain way. What factors matter most? What assumptions are you making? What's driving this decision?"
+                  maxlength="2000"
+                  required
+                ></textarea>
+                <div class="char-count" id="reasoning-count"><span id="reasoning-current">0</span>/2000</div>
+              </div>
+              
+              <button type="submit" id="analyze-btn" class="btn btn-primary" disabled>
+                <span class="btn-text">
+                  <span class="btn-icon" aria-hidden="true">⚡</span>
+                  Analyze My Reasoning
+                </span>
+                <span class="btn-loader" aria-hidden="true">
+                  <span class="spinner"></span>
+                  Analyzing blind spots...
+                </span>
+              </button>
+            </form>
           </div>
         </section>
 
-        <section class="results-section" id="results-section" hidden>
+        <section class="results-section" id="results-section" hidden aria-live="polite">
           <div class="card">
             <div class="results-header">
               <h2>Blind Spot Analysis</h2>
-              <button id="new-analysis-btn" class="btn btn-secondary">New Analysis</button>
+              <div class="results-meta">
+                <span id="analysis-time"></span>
+                <button id="new-analysis-btn" class="btn btn-secondary">
+                  <span class="btn-icon" aria-hidden="true">↻</span>
+                  New Analysis
+                </button>
+              </div>
             </div>
             
             <div class="results-content" id="results-content">
-              <!-- Results will be injected here -->
+              <!-- Results injected here -->
+            </div>
+            
+            <div class="insight-card info" style="margin-top: 24px;">
+              <div class="insight-icon info" aria-hidden="true">💡</div>
+              <div class="insight-content">
+                <div class="insight-title">Remember</div>
+                <div class="insight-text">This analysis helps you think more critically — it doesn't make the decision for you. Use these insights to ask better questions, challenge assumptions, and make a more informed choice.</div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section class="example-section">
-          <div class="card">
-            <h3>💡 Example</h3>
-            <p>A student deciding whether to accept a 6-month internship. They provide details about the stipend, location, working hours, role, learning opportunities, and college schedule. They explain they're mainly considering it because the stipend is good, the company is close to home, and it will provide industry experience.</p>
-            <p><strong>The AI identifies overlooked aspects:</strong> impact on academics, actual learning/mentorship quality, long-term career alignment, burnout risk, opportunity cost of other experiences.</p>
+        <section class="example-section" aria-labelledby="example-heading">
+          <div class="card example-card">
+            <div class="example-header">
+              <div class="example-icon" aria-hidden="true">💡</div>
+              <div class="example-content">
+                <h3 id="example-heading">Example Scenario</h3>
+                <p>A student deciding whether to accept a 6-month internship. They provide details about the stipend, location, working hours, role, learning opportunities, and college schedule. They explain they're mainly considering it because the stipend is good, the company is close to home, and it will provide industry experience.</p>
+              </div>
+            </div>
+            <div class="example-highlights">
+              <span class="highlight-tag"><span class="tag-icon">🔍</span> Overlooked: Academic impact</span>
+              <span class="highlight-tag"><span class="tag-icon">🤝</span> Overlooked: Mentorship quality</span>
+              <span class="highlight-tag"><span class="tag-icon">🧘</span> Overlooked: Burnout risk</span>
+              <span class="highlight-tag"><span class="tag-icon">🎯</span> Overlooked: Career alignment</span>
+              <span class="highlight-tag"><span class="tag-icon">💰</span> Assumption: Money = value</span>
+              <span class="highlight-tag"><span class="tag-icon">🏠</span> Assumption: Convenience > growth</span>
+              <span class="highlight-tag"><span class="tag-icon">⚡</span> Conflict: Money vs. grades</span>
+              <span class="highlight-tag"><span class="tag-icon">🧠</span> Bias: Salience bias</span>
+            </div>
           </div>
         </section>
       </div>
@@ -75,10 +176,19 @@
 
     <footer class="footer">
       <div class="container">
-        <p>Built for THE BLIND SPOT Challenge • AI-powered critical thinking assistant</p>
+        <div class="footer-content">
+          <div class="footer-links">
+            <a href="https://github.com/hitenborkar1406-ops/PROMPTWARS" target="_blank" rel="noopener">GitHub Repo</a>
+            <a href="https://the-blind-spot.onrender.com" target="_blank" rel="noopener">Live Demo</a>
+            <span>Built for THE BLIND SPOT Challenge</span>
+          </div>
+          <p class="footer-text">AI-powered critical thinking assistant • <span>Not a decision maker</span></p>
+        </div>
       </div>
     </footer>
   </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-label="Notifications"></div>
 
   <script src="app.js"></script>
 </body>
