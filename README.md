@@ -3,7 +3,9 @@
 AI-powered decision support tool that helps users identify blind spots in their reasoning.
 
 ## Live Demo
-[Deployed Application](https://the-blind-spot.vercel.app) *(update after deployment)*
+- **Render**: https://the-blind-spot.onrender.com
+- **GitHub Pages**: https://hitenborkar1406-ops.github.io/PROMPTWARS/
+- **Netlify** (temporary): http://ephemeral-babka-36b6dc.netlify.app
 
 ## Features
 - **Decision Analysis**: Input your decision context and reasoning
@@ -14,7 +16,7 @@ AI-powered decision support tool that helps users identify blind spots in their 
 
 ## Tech Stack
 - Vanilla HTML/CSS/JavaScript (no build step)
-- Deployed on Vercel/Netlify/GitHub Pages
+- Deployed on Render (primary), GitHub Pages, Netlify
 - Ready for LLM API integration (OpenAI, Anthropic, etc.)
 
 ## Project Structure
@@ -36,21 +38,21 @@ php -S localhost:8000
 ```
 
 ## Deployment
-### Vercel (Recommended)
+### Render (Primary)
+Configured via `render.yaml`:
 ```bash
-npm i -g vercel
-vercel
+# Auto-deploys from main branch on push
 ```
+
+### GitHub Pages
+1. Push to GitHub
+2. Settings → Pages → Deploy from branch (gh-pages)
 
 ### Netlify
 ```bash
 npm i -g netlify-cli
 netlify deploy --prod --dir .
 ```
-
-### GitHub Pages
-1. Push to GitHub
-2. Settings → Pages → Deploy from branch (main)
 
 ## Integrating Real AI
 Replace the `generateMockAnalysis()` function in `app.js` with an API call:
