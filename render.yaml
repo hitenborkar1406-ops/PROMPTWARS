@@ -2,4 +2,4 @@ services:
   - type: static
     name: the-blind-spot
     buildCommand: "echo 'Static site - no build needed'"
-    staticPublishPath: .
+    publishPath: ./
