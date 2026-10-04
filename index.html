@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE BLIND SPOT - AI Decision Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <span class="logo-icon">🔍</span>
+          <span class="logo-text">THE BLIND SPOT</span>
+        </div>
+        <p class="tagline">Uncover what you're missing in your decisions</p>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <section class="input-section">
+          <div class="card">
+            <h2>Describe Your Decision</h2>
+            <p class="subtitle">Share the context and your current reasoning</p>
+            
+            <div class="form-group">
+              <label for="decision-title">Decision Title</label>
+              <input type="text" id="decision-title" placeholder="e.g., Accept 6-month internship offer" />
+            </div>
+            
+            <div class="form-group">
+              <label for="decision-context">Context & Details</label>
+              <textarea id="decision-context" rows="4" placeholder="Describe the situation, options, constraints, and any relevant details..."></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="decision-reasoning">Your Current Reasoning</label>
+              <textarea id="decision-reasoning" rows="4" placeholder="Explain why you're leaning a certain way. What factors matter most to you? What assumptions are you making?"></textarea>
+            </div>
+            
+            <button id="analyze-btn" class="btn btn-primary" disabled>
+              <span class="btn-text">Analyze My Reasoning</span>
+              <span class="btn-loader" hidden>Analyzing...</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="results-section" id="results-section" hidden>
+          <div class="card">
+            <div class="results-header">
+              <h2>Blind Spot Analysis</h2>
+              <button id="new-analysis-btn" class="btn btn-secondary">New Analysis</button>
+            </div>
+            
+            <div class="results-content" id="results-content">
+              <!-- Results will be injected here -->
+            </div>
+          </div>
+        </section>
+
+        <section class="example-section">
+          <div class="card">
+            <h3>💡 Example</h3>
+            <p>A student deciding whether to accept a 6-month internship. They provide details about the stipend, location, working hours, role, learning opportunities, and college schedule. They explain they're mainly considering it because the stipend is good, the company is close to home, and it will provide industry experience.</p>
+            <p><strong>The AI identifies overlooked aspects:</strong> impact on academics, actual learning/mentorship quality, long-term career alignment, burnout risk, opportunity cost of other experiences.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>Built for THE BLIND SPOT Challenge • AI-powered critical thinking assistant</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
